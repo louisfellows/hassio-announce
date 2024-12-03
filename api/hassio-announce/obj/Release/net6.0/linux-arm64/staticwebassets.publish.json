@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "yBh8tdCyeXSleu3tqXsRQ+uq38FNnP8YBR460sgMSJE=",
+  "Source": "hassio-announce",
+  "BasePath": "_content/hassio-announce",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

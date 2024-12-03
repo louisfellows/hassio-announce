@@ -1,0 +1,12 @@
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\hassio-announce
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\appsettings.Development.json
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\appsettings.json
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\hassio-announce.dll
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\hassio-announce.deps.json
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\hassio-announce.runtimeconfig.json
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\hassio-announce.pdb
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\CliWrap.dll
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\Microsoft.OpenApi.dll
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+E:\Program Files (x86)\Github\hassio-announce\api\hassio-announce\obj\Release\net6.0\linux-arm\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
