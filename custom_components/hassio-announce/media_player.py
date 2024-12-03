@@ -72,8 +72,8 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
         """Initialize the device."""
         self.hass = hass
         self._attr_unique_id = name
-        self.state = MediaPlayerState.IDLE
-        self.name = name
+        self._state = MediaPlayerState.IDLE
+        self._name = name
         self.last_announcement_media_id = ""
         self.api_url = host
 
@@ -90,17 +90,17 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
 
     @property
     def _current_state(self) -> State:
-        return self.state
+        return self._state
 
     @property
     def name(self) -> str | None:
         """Return the name of the device."""
-        return self.name
+        return self._name
 
     @property
     def state(self) -> MediaPlayerState:
         """Return the media state."""
-        return self._get_state_from_string(self.state)
+        return self._get_state_from_string(self._state)
 
     @property
     def is_volume_muted(self) -> bool | None:
@@ -125,7 +125,7 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
     @property
     def media_position_updated_at(self) -> datetime | None:
         """Last valid time of media position."""
-        return datetime.timezone.utc
+        return datetime.now()
 
     @property
     def media_title(self) -> str | None:
@@ -194,14 +194,16 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
             media = await media_source.async_resolve_media(
                 self.hass, media_id, self.entity_id
             )
-            file_name = media.url[media.url.rindex("/") : media.url.rindex(".")]
-            
-            logging.info(file_name)
-            
-            url = f"{self.api_url}/"
-            body = {'url': file_name}
 
-            self.state = MediaPlayerState.PLAYING
-            x = requests.post(url, json = body)
-            logging.info(x)
-            self.state = MediaPlayerState.IDLE
+            file_name = media.url[media.url.rindex("/") : media.url.rindex(".")]
+            url = f"{self.api_url}/"
+
+            self._state = MediaPlayerState.PLAYING
+            self.hass.async_add_executor_job(self.send_play_request, url, file_name)
+            self._state = MediaPlayerState.IDLE
+
+    def send_play_request(self, url, file_name):
+        body = {'url': file_name}
+        logging.info(body)
+        x = requests.post(url, json = body)
+        logging.info(x)
