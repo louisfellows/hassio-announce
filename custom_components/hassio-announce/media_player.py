@@ -16,6 +16,7 @@ from homeassistant.components.media_player import (  # ATTR_APP_ID,; ATTR_APP_NA
     MediaPlayerState,
     MediaType,
     RepeatMode,
+    async_process_play_media_url
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, State
@@ -191,11 +192,11 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
         logging.info(media_id)
         
         if media_source.is_media_source_id(media_id):
-            media = await media_source.async_resolve_media(
+            play_item = await media_source.async_resolve_media(
                 self.hass, media_id, self.entity_id
             )
 
-            file_name = media.url[media.url.rindex("/") : media.url.rindex(".")]
+            file_name = async_process_play_media_url(self.hass, play_item.url)
             url = f"{self.api_url}/"
 
             self._state = MediaPlayerState.PLAYING
@@ -203,7 +204,7 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
             self._state = MediaPlayerState.IDLE
 
     def send_play_request(self, url, file_name):
-        body = {'url': file_name}
+        body = {'uri': file_name}
         logging.info(body)
         x = requests.post(url, json = body)
         logging.info(x)
