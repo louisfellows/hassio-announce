@@ -3,7 +3,10 @@ from __future__ import annotations
 
 from datetime import datetime
 import logging
+import requests
 from typing import Any
+
+from homeassistant.components import media_source
 
 from homeassistant.components.media_player import (  # ATTR_APP_ID,; ATTR_APP_NAME,; ATTR_INPUT_SOURCE_LIST,; ATTR_MEDIA_ALBUM_ARTIST,; ATTR_MEDIA_CHANNEL,; ATTR_MEDIA_EPISODE,; ATTR_MEDIA_PLAYLIST,; ATTR_MEDIA_SEASON,; ATTR_MEDIA_SERIES_TITLE,; ATTR_MEDIA_TRACK,; ATTR_SOUND_MODE_LIST,; DEVICE_CLASSES_SCHEMA,; PLATFORM_SCHEMA,; BrowseMedia,; async_process_play_media_url,
     ATTR_INPUT_SOURCE,
@@ -102,6 +105,7 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
         self.state = MediaPlayerState.IDLE
         self.name = "Announcer"
         self.last_announcement_media_id = ""
+        self.api_url = "http://192.168.1.204:5000"
 
     async def async_update(self) -> None:
         """Get the latest data and update the state."""
@@ -209,59 +213,25 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
         """Image url of current playing media."""
         return "/www/hassio.png"
 
-    async def async_set_volume_level(self, volume: float) -> None:
-        """Set volume level, range 0..1."""
-
-    async def async_media_play(self) -> None:
-        """Send play command."""
-
-    async def async_media_pause(self) -> None:
-        """Send pause command."""
-
-    async def async_media_stop(self) -> None:
-        """Send stop command."""
-
-    async def async_media_previous_track(self) -> None:
-        """Send previous track command."""
-
-    async def async_media_next_track(self) -> None:
-        """Send next track command."""
-
-    async def async_media_seek(self, position: float) -> None:
-        """Send seek command."""
-
     async def async_play_media(
         self, media_type: MediaType | str, media_id: str, **kwargs: Any
     ) -> None:
         """Play a piece of media."""
-        data = {ATTR_MEDIA_CONTENT_TYPE: media_type, ATTR_MEDIA_CONTENT_ID: media_id}
-        await self._async_call_service(SERVICE_PLAY_MEDIA, data, allow_override=True)
+        
+        logging.info(media_id)
+        
+        if media_source.is_media_source_id(media_id):
+            media = await media_source.async_resolve_media(
+                self.hass, media_id, self.entity_id
+            )
+            file_name = media.url[media.url.rindex("/") : media.url.rindex(".")]
+            
+            logging.info(file_name)
+            
+            url = f"{self.api_url}/"
+            body = {'url': file_name}
 
-    async def async_volume_up(self) -> None:
-        """Turn volume up for media player."""
-
-    async def async_volume_down(self) -> None:
-        """Turn volume down for media player."""
-
-    async def async_media_play_pause(self) -> None:
-        """Play or pause the media player."""
-
-    async def async_select_sound_mode(self, sound_mode: str) -> None:
-        """Select sound mode."""
-
-    async def async_clear_playlist(self) -> None:
-        """Clear players playlist."""
-
-    async def async_set_shuffle(self, shuffle: bool) -> None:
-        """Enable/disable shuffling."""
-
-    async def async_set_repeat(self, repeat: RepeatMode) -> None:
-        """Set repeat mode."""
-
-    async def async_toggle(self) -> None:
-        """Toggle the power on the media player."""
-
-    async def _async_call_service(
-        self, service_name, service_data=None, allow_override=False
-    ):
-        """Call either a specified or active child's service."""
+            self.state = MediaPlayerState.PLAYING
+            x = requests.post(url, json = body)
+            logging.info(x)
+            self.state = MediaPlayerState.IDLE
