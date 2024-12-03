@@ -48,20 +48,18 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_NAME): cv.string
 })
 
-async def async_setup_entry(
+def setup_platform(
     hass: HomeAssistant,
-    config: ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
-    discovery_info: DiscoveryInfoType | None = None,
+    config: ConfigType,
+    add_entities: AddEntitiesCallback,
+    discovery_info: DiscoveryInfoType | None = None
 ) -> None:
     """Set up the platform."""
     
     host = config[CONF_HOST]
     name = config[CONF_NAME]
     
-    async_add_entities([AnnouncerMediaDevice(hass, host, name)], True)
-
-
+    add_entities([AnnouncerMediaDevice(hass, host, name)], True)
 
 
 class AnnouncerMediaDevice(MediaPlayerEntity):
