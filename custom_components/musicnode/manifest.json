@@ -1,0 +1,14 @@
+{
+  "domain": "hassioanounce",
+  "name": "hassioanounce",
+  "config_flow": true,
+  "documentation": "https://www.home-assistant.io/integrations/hassioanounce",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": ["@louisfellows"],
+  "iot_class": "local_push",
+  "version": "1.0.0"
+}
