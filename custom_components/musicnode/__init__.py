@@ -15,8 +15,4 @@ PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER]
 
 def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up a skeleton component."""
-    
-    hass.states.set('hassio_announce.Idle', 'Idle')
-
-    # Return boolean to indicate that initialization was successfully.
     return True

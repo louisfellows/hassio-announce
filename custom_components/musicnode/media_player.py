@@ -60,6 +60,7 @@ from homeassistant.const import (  # ATTR_SUPPORTED_FEATURES,; CONF_DEVICE_CLASS
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import DiscoveryInfoType
+from homeassistant.const import CONF_HOST, CONF_NAME
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -79,6 +80,13 @@ STRING_TO_STATE = {
     "playing": MediaPlayerState.PLAYING
 }
 
+_LOGGER = logging.getLogger(__name__)
+
+# Validation of the user's configuration
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
+    vol.Required(CONF_HOST): cv.string
+    vol.Required(CONF_NAME): cv.string
+})
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -87,7 +95,11 @@ async def async_setup_entry(
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the platform."""
-    async_add_entities([AnnouncerMediaDevice(hass)], True)
+    
+    host = config[CONF_HOST]
+    name = config[CONF_NAME]
+    
+    async_add_entities([AnnouncerMediaDevice(hass, host, name)], True)
 
 
 
@@ -98,14 +110,14 @@ class AnnouncerMediaDevice(MediaPlayerEntity):
     _attr_media_content_type = MediaType.MUSIC
 
     # pylint: disable=no-member
-    def __init__(self, hass):
+    def __init__(self, hass, host, name):
         """Initialize the device."""
         self.hass = hass
-        self._attr_unique_id = "announcer"
+        self._attr_unique_id = name
         self.state = MediaPlayerState.IDLE
-        self.name = "Announcer"
+        self.name = name
         self.last_announcement_media_id = ""
-        self.api_url = "http://192.168.1.204:5000"
+        self.api_url = host
 
     async def async_update(self) -> None:
         """Get the latest data and update the state."""
