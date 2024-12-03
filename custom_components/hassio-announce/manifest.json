@@ -1,8 +1,8 @@
 {
-  "domain": "hassioanounce",
-  "name": "hassioanounce",
+  "domain": "hassio-announce",
+  "name": "hassio-announce",
   "config_flow": true,
-  "documentation": "https://www.home-assistant.io/integrations/hassioanounce",
+  "documentation": "https://www.home-assistant.io/integrations/hassioannounce",
   "requirements": [],
   "ssdp": [],
   "zeroconf": [],
@@ -10,5 +10,5 @@
   "dependencies": [],
   "codeowners": ["@louisfellows"],
   "iot_class": "local_push",
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
